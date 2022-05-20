@@ -1,8 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <!-- 需求一：layout插槽完成布局 -->
     <TestLayout>
-      <!-- 需求二：通过按钮实现admin显示editor隐藏 -->
       <template v-slot:header>
         <el-radio-group v-model="perms">
           <el-radio-button label="admin"></el-radio-button>
@@ -38,23 +36,10 @@
         ></AlTable>
       </template>
 
-      <!-- 需求三：renderless实现form表单 -->
       <template v-slot:main>
-        <RenderlessForm>
-          <template v-slot="{ user, changeUser }">
-            <el-form :inline="true" class="demo-form-inline">
-              <el-form-item label="审批人">
-                <el-input :value="user" placeholder="审批人"></el-input>
-                <el-button type="primary" size="default" @click="changeUser">
-                  修改input
-                </el-button>
-              </el-form-item>
-            </el-form>
-          </template>
-        </RenderlessForm>
+        <RenderlessForm />
       </template>
 
-      <!-- 需求四：区别上面的方法实现table列表 -->
       <template v-slot:footer>
         <el-table :data="testList.items" border stripe>
           <el-table-column
@@ -90,14 +75,9 @@ export default {
   components: { TestLayout, AlTable, RenderlessForm },
   data() {
     return {
-      // 权限判断变量
       perms: "admin",
-
-      // 用于存储请求回来的数据的testList
       testList: [],
       form: { name: "", region: "" },
-
-      // 用于遍历AlTable的column
       columns1: [
         { label: "名字", prop: "name" },
         { label: "电话", prop: "phone" },
@@ -114,8 +94,6 @@ export default {
           },
         },
       ],
-
-      // 用于遍历elTable的column
       columns2: [
         { label: "序号", type: "index" },
         { label: "名字", prop: "name" },
@@ -126,7 +104,6 @@ export default {
     };
   },
   methods: {
-    // 获取数据操作
     async getList() {
       let res = await getTestList();
       if (res.code === 20000) {
@@ -137,7 +114,6 @@ export default {
     },
   },
   mounted() {
-    // 挂载时进行一次获取数据
     this.getList();
   },
 };
